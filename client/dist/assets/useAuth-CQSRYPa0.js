@@ -1,0 +1,1 @@
+import{a as o}from"./motion-Q_hw2Ya2.js";import{o as t}from"./index-CSH1YS6q.js";var s=o();const r=()=>(0,s.useContext)(t);export{r as t};
