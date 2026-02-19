@@ -397,8 +397,7 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 flex flex-col">
-        {/* Header */}
-        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10">
+        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-20">
           <div className="px-6 py-4 flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-serif font-bold text-gray-900">
@@ -416,6 +415,29 @@ const AdminDashboard = () => {
                     <Plus className="w-4 h-4" /> {t('admin.products.add_btn')}
                   </button>
               )}
+            </div>
+          </div>
+          <div className="md:hidden border-t border-gray-100 bg-white/90">
+            <div className="px-4 py-2 flex gap-2 overflow-x-auto">
+              {sidebarItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    if (typeof window !== 'undefined') {
+                      window.localStorage.setItem('adminActiveTab', item.id);
+                    }
+                  }}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                    activeTab === item.id
+                      ? 'bg-primary text-white shadow'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
         </header>
