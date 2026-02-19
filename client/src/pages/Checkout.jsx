@@ -314,7 +314,10 @@ const Checkout = () => {
                       name="paymentMethod"
                       value="Stripe"
                       checked={paymentMethod === 'Stripe'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      onChange={(e) => {
+                        setPaymentMethod(e.target.value);
+                        setActiveStep(3);
+                      }}
                       className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                     />
                     <label htmlFor="stripe" className="ml-3 block text-base font-medium text-gray-700">
