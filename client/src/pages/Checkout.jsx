@@ -60,6 +60,7 @@ const Checkout = () => {
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
   useEffect(() => {
+    if (!user || !user.token) return;
     if (activeStep === 3 && paymentMethod === 'Stripe' && !clientSecret && totalPrice > 0) {
       const createPaymentIntent = async () => {
         try {
@@ -79,7 +80,7 @@ const Checkout = () => {
       };
       createPaymentIntent();
     }
-  }, [activeStep, paymentMethod, totalPrice, user.token, clientSecret]);
+  }, [activeStep, paymentMethod, totalPrice, user, clientSecret, t]);
 
   useEffect(() => {
     if (activeStep === 3 && paymentMethod === 'PayPal' && !isPayPalReady && totalPrice > 0) {
