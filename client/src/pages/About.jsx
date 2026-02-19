@@ -77,7 +77,7 @@ const About = () => {
     mission: {
       title: (isDefaultLang && pageData?.mission?.title) || t('about.mission_title'),
       content: (isDefaultLang && pageData?.mission?.content) || t('about.mission_content'),
-      imageUrl: pageData?.mission?.imageUrl || "/images/IMAGE HOME SARIA.png"
+      imageUrl: "/images/IMAGE HOME SARIA.png"
     },
     sections: (isDefaultLang && pageData?.sections?.length > 0) ? pageData.sections : [
       { icon: "Heart", title: t('about.section_passion_title'), content: t('about.section_passion_content') },
