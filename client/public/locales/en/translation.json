@@ -495,7 +495,8 @@
     "errors": {
       "payment_init_failed": "Impossible to initialize payment",
       "order_failed": "Order placement failed!",
-      "payment_unexpected": "An unexpected error occurred."
+      "payment_unexpected": "An unexpected error occurred.",
+      "paypal_not_configured": "PayPal is not configured."
     },
     "success": {
       "order_placed": "Order placed successfully!"

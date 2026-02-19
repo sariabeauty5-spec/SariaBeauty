@@ -29,6 +29,7 @@ const Checkout = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isPayPalReady, setIsPayPalReady] = useState(false);
 
   const resolveImage = (img) => {
     if (!img) return '';
@@ -80,6 +81,28 @@ const Checkout = () => {
     }
   }, [activeStep, paymentMethod, totalPrice, user.token, clientSecret]);
 
+  useEffect(() => {
+    if (activeStep === 3 && paymentMethod === 'PayPal' && !isPayPalReady && totalPrice > 0) {
+      if (window.paypal) {
+        setIsPayPalReady(true);
+        return;
+      }
+      const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+      if (!clientId) {
+        toast.error(t('checkout.errors.paypal_not_configured'));
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=AED`;
+      script.async = true;
+      script.onload = () => setIsPayPalReady(true);
+      script.onerror = () => {
+        toast.error(t('checkout.errors.payment_unexpected'));
+      };
+      document.body.appendChild(script);
+    }
+  }, [activeStep, paymentMethod, isPayPalReady, totalPrice, t]);
+
   const submitShippingHandler = (e) => {
     e.preventDefault();
     // In a real app, you'd save this to user profile or session
@@ -92,7 +115,7 @@ const Checkout = () => {
     setActiveStep(3);
   };
 
-  const placeOrderHandler = async (paymentResult = {}) => {
+  const placeOrderHandler = async (paymentResult = {}, isPaidOverride = null) => {
     try {
       const config = {
         headers: {
@@ -100,6 +123,12 @@ const Checkout = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
+
+      const isStripePaid =
+        paymentMethod === 'Stripe' &&
+        (paymentResult.status === 'succeeded' || paymentResult.status === 'requires_capture');
+      const isPaid = typeof isPaidOverride === 'boolean' ? isPaidOverride : isStripePaid;
+      const paidAt = isPaid ? new Date() : null;
 
       const orderData = {
         orderItems: cartItems.map(item => ({
@@ -116,8 +145,8 @@ const Checkout = () => {
         shippingPrice: shippingPrice.toFixed(2),
         totalPrice: totalPrice.toFixed(2),
         paymentResult,
-        isPaid: paymentMethod === 'Stripe' ? (paymentResult.status === 'succeeded' || paymentResult.status === 'requires_capture') : false,
-        paidAt: paymentMethod === 'Stripe' && (paymentResult.status === 'succeeded' || paymentResult.status === 'requires_capture') ? new Date() : null,
+        isPaid,
+        paidAt,
       };
 
       const { data } = await api.post('/orders', orderData, config);
@@ -143,6 +172,47 @@ const Checkout = () => {
   const onStripePaymentError = (errorMessage) => {
     toast.error(errorMessage);
   };
+
+  useEffect(() => {
+    if (activeStep === 3 && paymentMethod === 'PayPal' && isPayPalReady && totalPrice > 0 && window.paypal) {
+      const container = document.getElementById('paypal-button-container');
+      if (!container || container.children.length > 0) return;
+
+      window.paypal.Buttons({
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                amount: {
+                  value: totalPrice.toFixed(2),
+                },
+              },
+            ],
+          });
+        },
+        onApprove: async (data, actions) => {
+          setIsProcessing(true);
+          try {
+            const details = await actions.order.capture();
+            const paymentResult = {
+              id: details.id,
+              status: details.status,
+              update_time: details.update_time,
+              email_address: details.payer && details.payer.email_address,
+            };
+            await placeOrderHandler(paymentResult, true);
+          } catch (err) {
+            toast.error(err.message || t('checkout.errors.payment_unexpected'));
+          } finally {
+            setIsProcessing(false);
+          }
+        },
+        onError: (err) => {
+          toast.error(err.message || t('checkout.errors.payment_unexpected'));
+        },
+      }).render('#paypal-button-container');
+    }
+  }, [activeStep, paymentMethod, isPayPalReady, totalPrice, placeOrderHandler, t]);
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -250,6 +320,20 @@ const Checkout = () => {
                       {t('checkout.payment.stripe')}
                     </label>
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="paypal"
+                      name="paymentMethod"
+                      value="PayPal"
+                      checked={paymentMethod === 'PayPal'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                    />
+                    <label htmlFor="paypal" className="ml-3 block text-base font-medium text-gray-700">
+                      {t('checkout.payment.paypal')}
+                    </label>
+                  </div>
                 </div>
                 <div className="flex justify-between gap-4">
                   <button 
@@ -307,7 +391,7 @@ const Checkout = () => {
                   >
                     <ChevronLeft className="mr-2" size={20} /> {t('checkout.review.back_btn')}
                   </button>
-                  {paymentMethod === 'Stripe' ? (
+                  {paymentMethod === 'Stripe' && (
                     clientSecret && stripePromise ? (
                       <div className="w-full">
                         <Elements stripe={stripePromise} options={{ clientSecret }}>
@@ -324,14 +408,15 @@ const Checkout = () => {
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                       </div>
                     )
-                  ) : (
-                    <button 
-                      type="button" 
-                      onClick={() => placeOrderHandler({})} 
-                      className="btn btn-primary w-1/2"
-                    >
-                      {t('checkout.review.place_order_btn')}
-                    </button>
+                  )}
+                  {paymentMethod === 'PayPal' && (
+                    <div className="w-full flex justify-center py-2">
+                      {isPayPalReady ? (
+                        <div id="paypal-button-container" className="w-full flex justify-center" />
+                      ) : (
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

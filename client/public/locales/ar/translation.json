@@ -495,7 +495,8 @@
     "errors": {
       "payment_init_failed": "تعذر تهيئة الدفع",
       "order_failed": "فشل إتمام الطلب!",
-      "payment_unexpected": "حدث خطأ غير متوقع."
+      "payment_unexpected": "حدث خطأ غير متوقع.",
+      "paypal_not_configured": "لم يتم تهيئة PayPal."
     },
     "success": {
       "order_placed": "تم الطلب بنجاح!"

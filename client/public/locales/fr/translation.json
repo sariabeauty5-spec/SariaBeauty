@@ -480,7 +480,8 @@
     "errors": {
       "payment_init_failed": "Impossible d'initialiser le paiement",
       "order_failed": "Échec de la commande !",
-      "payment_unexpected": "Une erreur inattendue est survenue."
+      "payment_unexpected": "Une erreur inattendue est survenue.",
+      "paypal_not_configured": "PayPal n'est pas configuré."
     },
     "success": {
       "order_placed": "Commande passée avec succès !"
