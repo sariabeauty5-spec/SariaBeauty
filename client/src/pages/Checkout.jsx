@@ -350,10 +350,13 @@ const Checkout = () => {
               </form>
             )}
 
-            {/* Place Order Step */}
+            {/* Place Order / Payment Details Step */}
             {activeStep === 3 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-serif text-gray-800 mb-6 flex items-center"><Package className="mr-3" /> {t('checkout.review.title')}</h2>
+                <h2 className="text-2xl font-serif text-gray-800 mb-6 flex items-center">
+                  <Package className="mr-3" />
+                  {paymentMethod === 'Stripe' ? t('checkout.review.title_card') : t('checkout.review.title')}
+                </h2>
                 
                 {/* Shipping Info */}
                 <div className="card p-5">

@@ -481,6 +481,7 @@
     },
     "review": {
       "title": "مراجعة الطلب",
+      "title_card": "إدخال بيانات البطاقة البنكية",
       "shipping_info": "الشحن",
       "payment_method": "طريقة الدفع",
       "order_items": "عناصر الطلب",

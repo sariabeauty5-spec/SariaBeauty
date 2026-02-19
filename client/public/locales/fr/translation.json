@@ -466,6 +466,7 @@
     },
     "review": {
       "title": "Vérifiez votre commande",
+      "title_card": "Saisissez les coordonnées de votre carte",
       "shipping_info": "Livraison",
       "payment_method": "Moyen de paiement",
       "order_items": "Articles commandés",

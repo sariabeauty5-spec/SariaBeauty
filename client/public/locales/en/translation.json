@@ -481,6 +481,7 @@
     },
     "review": {
       "title": "Review Your Order",
+      "title_card": "Enter your card details",
       "shipping_info": "Shipping",
       "payment_method": "Payment Method",
       "order_items": "Order Items",
