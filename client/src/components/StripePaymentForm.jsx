@@ -36,6 +36,9 @@ const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, set
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <p className="text-sm text-gray-600">
+        Cartes et méthodes de paiement compatibles, y compris Apple Pay lorsque disponible.
+      </p>
       <div className="card p-5 border border-gray-200">
         <PaymentElement />
       </div>

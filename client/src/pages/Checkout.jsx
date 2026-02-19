@@ -24,7 +24,7 @@ const Checkout = () => {
     postalCode: '',
     country: '',
   });
-  const [paymentMethod, setPaymentMethod] = useState('PayPal');
+  const [paymentMethod, setPaymentMethod] = useState('Stripe');
   const [activeStep, setActiveStep] = useState(1); // 1: Shipping, 2: Payment, 3: Place Order
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
@@ -236,20 +236,6 @@ const Checkout = () => {
               <form onSubmit={submitPaymentHandler} className="space-y-6">
                 <h2 className="text-2xl font-serif text-gray-800 mb-6 flex items-center"><CreditCard className="mr-3" /> {t('checkout.payment.title')}</h2>
                 <div className="space-y-4">
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      id="paypal"
-                      name="paymentMethod"
-                      value="PayPal"
-                      checked={paymentMethod === 'PayPal'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                    />
-                    <label htmlFor="paypal" className="ml-3 block text-base font-medium text-gray-700">
-                      {t('checkout.payment.paypal')}
-                    </label>
-                  </div>
                   <div className="flex items-center">
                     <input
                       type="radio"
