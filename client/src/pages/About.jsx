@@ -77,7 +77,7 @@ const About = () => {
     mission: {
       title: (isDefaultLang && pageData?.mission?.title) || t('about.mission_title'),
       content: (isDefaultLang && pageData?.mission?.content) || t('about.mission_content'),
-      imageUrl: pageData?.mission?.imageUrl || "/images/Gemini_Generated_Image_6qpale6qpale6qpa.png"
+      imageUrl: pageData?.mission?.imageUrl || "/images/IMAGE HOME SARIA.png"
     },
     sections: (isDefaultLang && pageData?.sections?.length > 0) ? pageData.sections : [
       { icon: "Heart", title: t('about.section_passion_title'), content: t('about.section_passion_content') },
@@ -139,7 +139,7 @@ const About = () => {
             >
               <div className="aspect-w-1 aspect-h-1 rounded-2xl overflow-hidden">
                 <img 
-                  src={displayData.mission?.imageUrl || "/images/Gemini_Generated_Image_6qpale6qpale6qpa.png"} 
+                  src={displayData.mission?.imageUrl || "/images/IMAGE HOME SARIA.png"} 
                   alt="Our Story" 
                   className="w-full h-full object-cover"
                 />
