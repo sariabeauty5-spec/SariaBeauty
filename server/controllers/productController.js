@@ -428,7 +428,7 @@ const imageProductMeta = {
 // Build product objects from images directory and metadata
 const buildProductsFromImages = () => {
   try {
-    const imagesDir = path.resolve(__dirname, '..', '..', 'client', 'images');
+    const imagesDir = path.resolve(__dirname, '..', '..', 'client', 'public', 'images');
     const files = fs.readdirSync(imagesDir);
     const pngs = files.filter(f => /\.png$/i.test(f));
     const exclude = ["Capture d'écran 2026-01-08 171444.png"];
