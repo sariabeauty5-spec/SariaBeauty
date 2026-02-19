@@ -1,7 +1,9 @@
 import React from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useTranslation } from 'react-i18next';
 
 const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, setIsProcessing }) => {
+  const { t } = useTranslation();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -21,14 +23,14 @@ const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, set
       });
 
       if (error) {
-        onPaymentError(error.message);
+        onPaymentError(error.message || t('checkout.errors.payment_unexpected'));
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
         onPaymentSuccess(paymentIntent);
       } else {
-        onPaymentError('Une erreur inattendue est survenue.');
+        onPaymentError(t('checkout.errors.payment_unexpected'));
       }
     } catch (err) {
-      onPaymentError(err.message || 'Payment failed');
+      onPaymentError(err.message || t('checkout.errors.payment_unexpected'));
     } finally {
       setIsProcessing(false);
     }
@@ -37,7 +39,7 @@ const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, set
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <p className="text-sm text-gray-600">
-        Cartes et méthodes de paiement compatibles, y compris Apple Pay lorsque disponible.
+        {t('checkout.payment.element_help')}
       </p>
       <div className="card p-5 border border-gray-200">
         <PaymentElement />
@@ -53,10 +55,10 @@ const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, set
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Traitement en cours...
+            {t('checkout.payment.processing')}
           </span>
         ) : (
-          'Payer maintenant'
+          t('checkout.payment.pay_now')
         )}
       </button>
     </form>

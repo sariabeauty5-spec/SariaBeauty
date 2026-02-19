@@ -459,7 +459,10 @@
       "paypal": "PayPal",
       "stripe": "Carte bancaire (Stripe)",
       "back_btn": "Retour à la livraison",
-      "continue_btn": "Continuer pour commander"
+      "continue_btn": "Continuer pour commander",
+      "element_help": "Cartes et méthodes de paiement compatibles, y compris Apple Pay lorsque disponible.",
+      "processing": "Traitement en cours...",
+      "pay_now": "Payer maintenant"
     },
     "review": {
       "title": "Vérifiez votre commande",
@@ -476,7 +479,8 @@
     },
     "errors": {
       "payment_init_failed": "Impossible d'initialiser le paiement",
-      "order_failed": "Échec de la commande !"
+      "order_failed": "Échec de la commande !",
+      "payment_unexpected": "Une erreur inattendue est survenue."
     },
     "success": {
       "order_placed": "Commande passée avec succès !"

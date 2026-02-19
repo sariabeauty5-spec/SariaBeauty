@@ -474,7 +474,10 @@
       "paypal": "PayPal",
       "stripe": "Credit Card (Stripe)",
       "back_btn": "Back to Shipping",
-      "continue_btn": "Continue to Place Order"
+      "continue_btn": "Continue to Place Order",
+      "element_help": "Supported cards and payment methods, including Apple Pay where available.",
+      "processing": "Processing...",
+      "pay_now": "Pay now"
     },
     "review": {
       "title": "Review Your Order",
@@ -491,7 +494,8 @@
     },
     "errors": {
       "payment_init_failed": "Impossible to initialize payment",
-      "order_failed": "Order placement failed!"
+      "order_failed": "Order placement failed!",
+      "payment_unexpected": "An unexpected error occurred."
     },
     "success": {
       "order_placed": "Order placed successfully!"

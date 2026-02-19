@@ -474,7 +474,10 @@
       "paypal": "باي بال",
       "stripe": "بطاقة ائتمان (Stripe)",
       "back_btn": "العودة للشحن",
-      "continue_btn": "متابعة لإتمام الطلب"
+      "continue_btn": "متابعة لإتمام الطلب",
+      "element_help": "بطاقات وطرق دفع مدعومة، بما في ذلك Apple Pay عند توفره.",
+      "processing": "جاري المعالجة...",
+      "pay_now": "ادفع الآن"
     },
     "review": {
       "title": "مراجعة الطلب",
@@ -491,7 +494,8 @@
     },
     "errors": {
       "payment_init_failed": "تعذر تهيئة الدفع",
-      "order_failed": "فشل إتمام الطلب!"
+      "order_failed": "فشل إتمام الطلب!",
+      "payment_unexpected": "حدث خطأ غير متوقع."
     },
     "success": {
       "order_placed": "تم الطلب بنجاح!"
