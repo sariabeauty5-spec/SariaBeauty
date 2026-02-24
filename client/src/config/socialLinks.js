@@ -3,14 +3,14 @@
 
 export const socialMediaConfig = {
   instagram: {
-    url: 'https://instagram.com/sariabeauty.ma',
-    username: '@sariabeauty.ma',
+    url: 'https://www.instagram.com/saria_beauty?igsh=M21nczg0cDUyaHE3',
+    username: '@saria_beauty',
     displayName: 'Instagram'
   },
-  facebook: {
-    url: 'https://facebook.com/sariabeauty.ma',
-    username: 'sariabeauty.ma',
-    displayName: 'Facebook'
+  tiktok: {
+    url: 'https://www.tiktok.com/@sariabeauty',
+    username: '@sariabeauty',
+    displayName: 'TikTok'
   },
   whatsapp: {
     url: 'https://wa.me/212600000000', // Moroccan WhatsApp format

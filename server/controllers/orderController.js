@@ -12,19 +12,39 @@ const createOrder = asyncHandler(async (req, res) => {
     orderItems,
     shippingAddress,
     paymentMethod,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
   } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error('No order items');
   } else {
+    const itemsWithPrices = [];
+    let itemsPrice = 0;
+
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product);
+      if (!product) {
+        res.status(400);
+        throw new Error('Product not found');
+      }
+      const price = product.price;
+      itemsWithPrices.push({
+        name: item.name || product.name,
+        qty: item.qty,
+        image: item.image || product.image,
+        price,
+        product: product._id,
+      });
+      itemsPrice += price * item.qty;
+    }
+
+    const taxPrice = 0;
+    const shippingPrice = 0;
+    const totalPrice = itemsPrice + taxPrice + shippingPrice;
+
     const order = new Order({
       user: req.user._id,
-      orderItems,
+      orderItems: itemsWithPrices,
       shippingAddress,
       paymentMethod,
       itemsPrice,

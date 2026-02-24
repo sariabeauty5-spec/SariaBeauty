@@ -2,13 +2,52 @@ const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
 const { registerClient, broadcastEvent } = require('../utils/sse');
-const { protect, admin } = require('../middleware/authMiddleware');
+const { protect, admin, protectOptional } = require('../middleware/authMiddleware');
 
 // @desc    SSE endpoint for real-time contact notifications
 // @route   GET /api/contact/events
 // @access  Public
 router.get('/events', (req, res) => {
   registerClient(res);
+});
+
+// @desc    Get logged in user messages
+// @route   GET /api/contact/my-messages
+// @access  Private
+router.get('/my-messages', protect, async (req, res) => {
+  try {
+    const messages = await Message.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+});
+
+// @desc    Get unread reply count
+// @route   GET /api/contact/unread-count
+// @access  Private
+router.get('/unread-count', protect, async (req, res) => {
+  try {
+    const count = await Message.countDocuments({ userId: req.user._id, unreadReply: true });
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+});
+
+// @desc    Mark all user messages as read
+// @route   PUT /api/contact/mark-read
+// @access  Private
+router.put('/mark-read', protect, async (req, res) => {
+  try {
+    await Message.updateMany(
+      { userId: req.user._id, unreadReply: true },
+      { unreadReply: false }
+    );
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
 });
 
 // Reply to a contact message (Admin)
@@ -22,6 +61,8 @@ router.put('/:id/reply', protect, admin, async (req, res) => {
     if (!msg) return res.status(404).json({ message: 'Message not found' });
     msg.adminReply = reply;
     msg.status = 'replied';
+    msg.isReplied = true;
+    msg.unreadReply = true;
     msg.repliedAt = new Date();
     await msg.save();
     broadcastEvent({
@@ -38,7 +79,7 @@ router.put('/:id/reply', protect, admin, async (req, res) => {
 // @desc    Send a contact message
 // @route   POST /api/contact
 // @access  Public
-router.post('/', async (req, res) => {
+router.post('/', protectOptional, async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
@@ -50,7 +91,8 @@ router.post('/', async (req, res) => {
       name,
       email,
       subject,
-      message
+      message,
+      userId: req.user ? req.user._id : undefined
     });
 
     // Broadcast the new message event

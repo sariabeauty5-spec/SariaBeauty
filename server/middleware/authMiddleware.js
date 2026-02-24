@@ -30,6 +30,22 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
+const protectOptional = asyncHandler(async (req, res, next) => {
+  let token;
+
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id).select('-password');
+    } catch (error) {
+      console.error(error);
+      // Optional: ignore error if token invalid, treat as guest
+    }
+  }
+  next();
+});
+
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
@@ -69,4 +85,4 @@ const userOnly = (req, res, next) => {
   }
 };
 
-module.exports = { protect, admin, protectOrQuery, userOnly };
+module.exports = { protect, protectOptional, admin, protectOrQuery, userOnly };

@@ -38,10 +38,10 @@ const StripePaymentForm = ({ onPaymentSuccess, onPaymentError, isProcessing, set
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
         {t('checkout.payment.element_help')}
       </p>
-      <div className="card p-5 border border-gray-200">
+      <div className="card p-5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300 rounded-xl">
         <PaymentElement />
       </div>
       <button 

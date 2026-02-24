@@ -597,15 +597,59 @@ module.exports = {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
-        category: req.body.category,
         image: req.body.image,
-        countInStock: req.body.countInStock ?? 0,
-        translations: req.body.translations ?? undefined,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
+        rating: 0,
+        numReviews: 0,
+        translations: req.body.translations,
       });
+
       broadcastEvent({ channel: 'product', type: 'product_created', product });
       res.status(201).json(product);
     } catch (error) {
-      res.status(400).json({ message: 'Create product failed' });
+      const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+      res.status(statusCode).json({ message: error.message || 'Product creation failed' });
+    }
+  },
+  deleteProductReview: async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id);
+
+      if (product) {
+        const review = product.reviews.find(
+          (r) => r._id.toString() === req.params.reviewId.toString()
+        );
+
+        if (!review) {
+          res.status(404);
+          throw new Error('Review not found');
+        }
+
+        product.reviews = product.reviews.filter(
+          (r) => r._id.toString() !== req.params.reviewId.toString()
+        );
+
+        product.numReviews = product.reviews.length;
+
+        if (product.reviews.length > 0) {
+          const totalRating = product.reviews.reduce((acc, item) => item.rating + acc, 0);
+          product.rating = totalRating / product.reviews.length;
+          // Fix decimal places
+          product.rating = Number(product.rating.toFixed(2));
+        } else {
+          product.rating = 0;
+        }
+
+        await product.save();
+        res.json({ message: 'Review removed' });
+      } else {
+        res.status(404);
+        throw new Error('Product not found');
+      }
+    } catch (error) {
+      const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+      res.status(statusCode).json({ message: error.message || 'Review deletion failed' });
     }
   },
   updateProduct: async (req, res) => {

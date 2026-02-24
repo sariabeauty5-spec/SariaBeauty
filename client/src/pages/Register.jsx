@@ -34,15 +34,15 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 card-strong p-8">
+    <div className="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <div className="max-w-md w-full space-y-8 card-strong p-8 bg-white dark:bg-gray-800 dark:border-gray-700">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-serif text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-serif text-gray-900 dark:text-white">
             {t('auth.create_account')}
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && <div className="text-red-500 text-center text-sm">{error}</div>}
+          {error && <div className="text-red-500 dark:text-red-400 text-center text-sm">{error}</div>}
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="sr-only">{t('auth.full_name')}</label>
@@ -52,7 +52,7 @@ const Register = () => {
                 type="text"
                 autoComplete="name"
                 required
-                className="input"
+                className="input dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder={t('auth.full_name')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -66,7 +66,7 @@ const Register = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="input"
+                className="input dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder={t('auth.email_address')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -80,7 +80,7 @@ const Register = () => {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="input"
+                className="input dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder={t('auth.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -98,9 +98,9 @@ const Register = () => {
           </div>
           
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {t('auth.already_have_an_account')}{' '}
-              <Link to={`/login${redirect && redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="font-medium text-primary hover:text-rose-700">
+              <Link to={`/login${redirect && redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="font-medium text-primary hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300">
                 {t('auth.sign_in_here')}
               </Link>
             </p>

@@ -6,14 +6,17 @@ import './i18n';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { CurrencyProvider } from './context/CurrencyContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
       <CurrencyProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <ThemeProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </ThemeProvider>
       </CurrencyProvider>
     </AuthProvider>
   </React.StrictMode>,

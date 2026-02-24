@@ -82,160 +82,171 @@ const ProductDetails = () => {
     };
   }, [id]);
 
-  if (loading) return <div className="text-center py-20 text-primary">{t('product.loading')}</div>;
-  if (!product) return <div className="text-center py-20">{t('product.not_found')}</div>;
+  if (loading) return <div className="text-center py-20 text-primary dark:text-rose-400">{t('product.loading')}</div>;
+  if (!product) return <div className="text-center py-20 dark:text-white">{t('product.not_found')}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Link to="/" className="inline-flex items-center text-gray-500 hover:text-primary mb-8 transition-colors">
-        <ArrowLeft className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" />
-        {t('back_to_shop')}
-      </Link>
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-8">
+        <Link to="/" className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-rose-400 mb-8 transition-colors">
+          <ArrowLeft className="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" />
+          {t('back_to_shop')}
+        </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Image Section */}
-        <div className="card p-4 ring-1 ring-transparent hover:ring-primary/20 transition-all">
-          <div className="h-[28rem] w-full overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative shadow-inner">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent"></div>
-            <img 
-              src={resolveImage(product.image)} 
-              alt={product.name} 
-              className="max-h-full max-w-full object-contain transition-all duration-700 ease-out hover:scale-105 hover:rotate-1"
-            />
-            <span className="absolute top-3 left-3 bg-rose-50/80 text-gray-900 text-xs px-3 py-1 rounded-full border border-rose-200/70 backdrop-blur-md">{product.category}</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Image Section */}
+          <div className="card p-4 ring-1 ring-transparent hover:ring-primary/20 dark:hover:ring-rose-500/30 transition-all dark:bg-gray-800 dark:border-gray-700">
+            <div className="h-[28rem] w-full overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center relative shadow-inner">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent dark:from-black/20"></div>
+              <img 
+                src={resolveImage(product.image)} 
+                alt={displayFields(product).name}
+                className="max-w-full max-h-full object-contain drop-shadow-xl hover:scale-105 transition-transform duration-500"
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Product Info */}
-        <div className="flex flex-col justify-center">
-          <div className="mb-6">
-            <span className="text-sm text-primary font-medium tracking-wider uppercase">{product.category}</span>
-            <h1 className="text-3xl md:text-4xl font-serif text-gray-900 mt-2 mb-2">{displayFields(product).name}</h1>
-            <div className="h-0.5 w-24 bg-primary/30 rounded mb-4" />
-            <div className="flex items-center mb-4">
-              <div className="flex text-yellow-400">
+          {/* Info Section */}
+          <div className="flex flex-col justify-center">
+            <div className="mb-2">
+              <span className="px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-300 rounded-full text-xs font-semibold tracking-wider uppercase">
+                {product.category}
+              </span>
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4 leading-tight">
+              {displayFields(product).name}
+            </h1>
+
+            <div className="flex items-center mb-6">
+              <div className="flex text-yellow-400 mr-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300'}`} />
+                  <Star 
+                    key={i} 
+                    className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300 dark:text-gray-600'}`} 
+                  />
                 ))}
               </div>
-              <span className="text-gray-500 ml-2 rtl:mr-2 text-sm">{t('product.reviews_label', { count: product.numReviews })}</span>
+              <span className="text-gray-500 dark:text-gray-400 text-sm">
+                ({product.numReviews} {t('reviews')})
+              </span>
             </div>
-            <p className="text-2xl font-bold text-primary"><span className="tabular-nums">{formatPrice(product.price)}</span></p>
-          </div>
 
-          <div className="text-gray-700 leading-relaxed mb-8">{displayFields(product).description}</div>
+            <p className="text-3xl font-bold text-primary dark:text-rose-400 mb-6">
+              {formatPrice(product.price)}
+            </p>
 
-          <div className="flex items-center space-x-4 rtl:space-x-reverse">
-             <button 
-               onClick={() => addToCart(product)}
-               className="btn btn-primary flex-1 py-4 shadow-lg hover:shadow-xl"
-               disabled={product.countInStock === 0}
-             >
-               <ShoppingBag className="w-5 h-5 mr-2 rtl:ml-2 rtl:mr-0" />
-               {product.countInStock > 0 ? t('add_to_cart') : t('out_of_stock')}
-             </button>
-             <button type="button" className="btn btn-outline w-12 h-12 p-0 rounded-full text-gray-500 hover:text-red-600 hover:border-red-200">
-               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-               </svg>
-             </button>
-          </div>
-          
-          <div className="mt-8 border-t border-gray-100 pt-8">
-             <div className="flex items-center space-x-8 rtl:space-x-reverse text-sm text-gray-500">
-                <div className="flex items-center">
-                   <span className={`w-2 h-2 rounded-full mr-2 rtl:ml-2 rtl:mr-0 ${product.countInStock > 0 ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                   {product.countInStock > 0 ? t('in_stock') : t('out_of_stock')}
-                </div>
-                <div>
-                   {t('fast_delivery')}
-                </div>
-             </div>
+            <div className="prose prose-sm dark:prose-invert text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              {displayFields(product).description}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 w-max bg-white dark:bg-gray-800">
+                <span className={`w-3 h-3 rounded-full mr-2 ${product.countInStock > 0 ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                <span className={`text-sm font-medium ${product.countInStock > 0 ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}`}>
+                  {product.countInStock > 0 ? t('in_stock') : t('out_of_stock')}
+                </span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => addToCart(product, 1)}
+              disabled={product.countInStock === 0}
+              className={`w-full md:w-auto px-8 py-4 rounded-full flex items-center justify-center gap-2 text-white font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${
+                product.countInStock > 0 
+                  ? 'bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100' 
+                  : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed'
+              }`}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {product.countInStock > 0 ? t('add_to_cart') : t('out_of_stock')}
+            </button>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        {product.reviews && product.reviews.length > 0 && (
+          <div className="mt-16">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-12">
+              {/* New Review Notification */}
+              {newReviewNotification && (
+                <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center transition-colors">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-green-400 dark:text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-green-800 dark:text-green-300">New review added!</p>
+                    <p className="text-sm text-green-700 dark:text-green-400">A new review has been posted for this product.</p>
+                  </div>
+                </div>
+              )}
+              <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-8">Customer Reviews</h2>
+              
+              {/* Review Summary */}
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className={`w-6 h-6 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300 dark:text-gray-600'}`} viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{product.rating.toFixed(1)}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Based on {product.numReviews} {product.numReviews === 1 ? 'review' : 'reviews'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Individual Reviews */}
+              <div className="space-y-6">
+                {product.reviews.map((review, index) => (
+                  <div key={index} className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 transition-all duration-300 ${
+                    newReviewIds.includes(review._id) ? 'new-review-highlight' : ''
+                  }`}>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">{review.name}</h4>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {new Date(review.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                      <div className="flex text-yellow-400">
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} className={`w-4 h-4 ${i < review.rating ? 'fill-current' : 'text-gray-300 dark:text-gray-600'}`} viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{review.comment}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* No Reviews Message */}
+        {(!product.reviews || product.reviews.length === 0) && (
+          <div className="mt-16">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-12">
+              <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">Customer Reviews</h2>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
+                <p className="text-gray-600 dark:text-gray-400">No reviews yet. Be the first to review this product!</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Reviews Section */}
-      {product.reviews && product.reviews.length > 0 && (
-        <div className="mt-16">
-          <div className="border-t border-gray-200 pt-12">
-            {/* New Review Notification */}
-            {newReviewNotification && (
-              <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800">New review added!</p>
-                  <p className="text-sm text-green-700">A new review has been posted for this product.</p>
-                </div>
-              </div>
-            )}
-            <h2 className="text-2xl font-serif text-gray-900 mb-8">Customer Reviews</h2>
-            
-            {/* Review Summary */}
-            <div className="bg-gray-50 rounded-xl p-6 mb-8">
-              <div className="flex items-center gap-4">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className={`w-6 h-6 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300'}`} viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-gray-900">{product.rating.toFixed(1)}</p>
-                  <p className="text-sm text-gray-600">Based on {product.numReviews} {product.numReviews === 1 ? 'review' : 'reviews'}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Individual Reviews */}
-            <div className="space-y-6">
-              {product.reviews.map((review, index) => (
-                <div key={index} className={`bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 ${
-                  newReviewIds.includes(review._id) ? 'new-review-highlight' : ''
-                }`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h4 className="font-semibold text-gray-900">{review.name}</h4>
-                      <p className="text-sm text-gray-500">
-                        {new Date(review.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className={`w-4 h-4 ${i < review.rating ? 'fill-current' : 'text-gray-300'}`} viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">{review.comment}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* No Reviews Message */}
-      {(!product.reviews || product.reviews.length === 0) && (
-        <div className="mt-16">
-          <div className="border-t border-gray-200 pt-12">
-            <h2 className="text-2xl font-serif text-gray-900 mb-4">Customer Reviews</h2>
-            <div className="bg-gray-50 rounded-xl p-8 text-center">
-              <p className="text-gray-600">No reviews yet. Be the first to review this product!</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

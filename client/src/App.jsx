@@ -26,10 +26,10 @@ import Footer from './components/Footer';
 import RequireAdmin from './components/RequireAdmin';
 
 const NotFound = ({ t }) => (
-  <main>
+  <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <div className="container mx-auto px-4 py-24 text-center">
-      <h2 className="text-4xl font-serif text-gray-900 mb-4">{t('not_found.title')}</h2>
-      <p className="text-gray-600 mb-8">{t('not_found.message')}</p>
+      <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-4">{t('not_found.title')}</h2>
+      <p className="text-gray-600 dark:text-gray-300 mb-8">{t('not_found.message')}</p>
       <Link to="/" className="btn btn-primary inline-flex">{t('not_found.back_home')}</Link>
     </div>
   </main>
@@ -48,8 +48,6 @@ function App() {
     document.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
   }, [i18n.language]);
 
-
-
   return (
     <Router>
       <Toaster 
@@ -57,19 +55,6 @@ function App() {
         reverseOrder={false}
         toastOptions={{
           className: 'glass-toast',
-          style: {
-            background: 'rgba(255, 255, 255, 0.85)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(183, 110, 121, 0.2)',
-            padding: '16px 24px',
-            color: '#1f2937',
-            borderRadius: '24px',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
-            fontSize: '14px',
-            fontWeight: '500',
-            maxWidth: '400px',
-          },
           success: {
             iconTheme: {
               primary: '#B76E79',
@@ -90,11 +75,11 @@ function App() {
           },
         }}
       />
-      <div className="min-h-screen font-sans">
+      <div className="min-h-screen font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
         <Header />
         <ChatAssistant />
         <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center">
+          <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
         }>

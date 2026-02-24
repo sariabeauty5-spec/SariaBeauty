@@ -108,8 +108,8 @@ const About = () => {
 
 
   return (
-    <main className="bg-gray-50 min-h-screen">
-      <div className="relative bg-rose-100/50 pt-32 pb-20 lg:pt-48 lg:pb-28">
+    <main className="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+      <div className="relative bg-rose-100/50 dark:bg-gray-800/50 pt-32 pb-20 lg:pt-48 lg:pb-28 transition-colors duration-300">
         <div className="absolute inset-0 z-0 opacity-10">
           <div className="absolute inset-0 bg-repeat bg-center" style={{ backgroundImage: 'url(/images/patterns/subtle-dots.svg)' }}></div>
         </div>
@@ -120,15 +120,15 @@ const About = () => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-serif text-gray-900 mb-4">{displayData.title}</h1>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">{displayData.subtitle}</p>
+            <h1 className="text-4xl md:text-6xl font-serif text-gray-900 dark:text-white mb-4">{displayData.title}</h1>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">{displayData.subtitle}</p>
           </motion.div>
         </div>
       </div>
       <div className="container mx-auto px-4 py-16">
 
         {/* Story Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-12 mb-24">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 mb-24 transition-colors duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -153,27 +153,27 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-6"
             >
-              <h2 className="text-4xl font-serif text-gray-900">{displayData.mission?.title}</h2>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <h2 className="text-4xl font-serif text-gray-900 dark:text-white">{displayData.mission?.title}</h2>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
                 {displayData.mission?.content}
               </p>
               <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
                     <Sparkles className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">{(isDefaultLang && pageData?.badge1_title) || t('about.badge1_title')}</h4>
-                    <p className="text-sm text-gray-500">{(isDefaultLang && pageData?.badge1_desc) || t('about.badge1_desc')}</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">{(isDefaultLang && pageData?.badge1_title) || t('about.badge1_title')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{(isDefaultLang && pageData?.badge1_desc) || t('about.badge1_desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
                     <Heart className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">{(isDefaultLang && pageData?.badge2_title) || t('about.badge2_title')}</h4>
-                    <p className="text-sm text-gray-500">{(isDefaultLang && pageData?.badge2_desc) || t('about.badge2_desc')}</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">{(isDefaultLang && pageData?.badge2_title) || t('about.badge2_title')}</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{(isDefaultLang && pageData?.badge2_desc) || t('about.badge2_desc')}</p>
                   </div>
                 </div>
               </div>
@@ -184,8 +184,8 @@ const About = () => {
         {/* Values Section */}
         <div className="mb-24">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif text-gray-900 mb-4">{(isDefaultLang && pageData?.values_title) || t('about.values_title')}</h2>
-            <p className="text-gray-600 text-lg">{(isDefaultLang && pageData?.values_subtitle) || t('about.values_subtitle')}</p>
+            <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-4">{(isDefaultLang && pageData?.values_title) || t('about.values_title')}</h2>
+            <p className="text-gray-600 dark:text-gray-300 text-lg">{(isDefaultLang && pageData?.values_subtitle) || t('about.values_subtitle')}</p>
           </div>
           
           <motion.div 
@@ -199,13 +199,13 @@ const About = () => {
               <motion.div 
                 key={index}
                 variants={itemVariants}
-                className="bg-white rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
-                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mb-6 mx-auto">
+                <div className="w-20 h-20 rounded-full bg-rose-100 dark:bg-gray-700 flex items-center justify-center mb-6 mx-auto">
                   {getIcon(value.icon)}
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-900">{value.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{value.content || value.description}</p>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">{value.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{value.content || value.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -216,13 +216,13 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white rounded-2xl shadow-xl p-12 text-center"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 text-center transition-colors duration-300"
         >
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">{(isDefaultLang && pageData?.cta_title) || t('about.cta_title')}</h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto text-lg">
+          <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-4">{(isDefaultLang && pageData?.cta_title) || t('about.cta_title')}</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
             {(isDefaultLang && pageData?.cta_desc) || t('about.cta_desc')}
           </p>
-          <Link to="/shop" className="group relative px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+          <Link to="/shop" className="group relative px-8 py-4 bg-gray-900 dark:bg-gray-700 text-white rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
             <span className="relative z-10 flex items-center gap-2 font-medium">
               {t('about.cta_button')}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

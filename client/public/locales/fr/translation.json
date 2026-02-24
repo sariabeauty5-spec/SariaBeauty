@@ -353,7 +353,13 @@
       "make_admin": "Nommer Admin",
       "promoted": "Utilisateur mis à jour : Promu Admin",
       "demoted": "Utilisateur mis à jour : Rétrogradé Utilisateur",
-      "toggle_error": "Échec du changement de rôle"
+      "toggle_error": "Échec du changement de rôle",
+      "delete_success": "Utilisateur supprimé",
+      "delete_error": "Échec de la suppression",
+      "delete_confirm": {
+        "title": "Supprimer l'utilisateur ?",
+        "text": "Cette action est irréversible."
+      }
     },
     "messages": {
       "table": {
@@ -380,6 +386,12 @@
         "reviewer": "Evaluateur",
         "rating": "Note",
         "comment": "Commentaire"
+      },
+      "delete_success": "Avis supprimé",
+      "delete_error": "Échec de la suppression",
+      "delete_confirm": {
+        "title": "Supprimer l'avis ?",
+        "text": "Cette action est irréversible."
       }
     },
     "about": {

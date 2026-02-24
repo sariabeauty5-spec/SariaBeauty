@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 dotenv.config();
 
@@ -17,13 +19,61 @@ const contactRoutes = require('./routes/contactRoutes');
 const pageRoutes = require('./routes/pageRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const { stripeWebhook } = require('./controllers/paymentController');
 
 connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+const corsOptions = {};
+
+if (process.env.NODE_ENV === 'production' && process.env.CORS_ORIGIN) {
+  const allowedOrigins = process.env.CORS_ORIGIN.split(',').map((o) => o.trim());
+  corsOptions.origin = (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  };
+} else {
+  corsOptions.origin = true;
+}
+
+corsOptions.credentials = true;
+
+const createPaymentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+});
+
+const webhookLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+});
+
+app.use(cors(corsOptions));
+app.use(helmet());
+
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    const proto = req.headers['x-forwarded-proto'] || req.protocol;
+    if (proto !== 'https') {
+      const host = req.headers.host;
+      return res.redirect(301, `https://${host}${req.originalUrl}`);
+    }
+    return next();
+  });
+}
+
+app.post(
+  '/api/payment/webhook',
+  webhookLimiter,
+  express.raw({ type: 'application/json' }),
+  stripeWebhook
+);
+
 app.use(express.json({ limit: '20mb' }));
 
 app.get('/', (req, res) => {
@@ -38,6 +88,8 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/pages', pageRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/payment/create-payment-intent', createPaymentLimiter);
+app.use('/api/payment/paypal/verify', createPaymentLimiter);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/uploads', require('./routes/uploadRoutes'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

@@ -34,11 +34,11 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-rose-50 via-white to-rose-100">
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-rose-50 via-white to-rose-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
       {/* Background Decor - Optimized for performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[40%] h-[40%] bg-rose-200/20 rounded-full blur-2xl" />
-        <div className="absolute top-[40%] -right-[10%] w-[30%] h-[30%] bg-rose-300/15 rounded-full blur-2xl" />
+        <div className="absolute -top-[20%] -left-[10%] w-[40%] h-[40%] bg-rose-200/20 dark:bg-rose-900/10 rounded-full blur-2xl" />
+        <div className="absolute top-[40%] -right-[10%] w-[30%] h-[30%] bg-rose-300/15 dark:bg-rose-900/10 rounded-full blur-2xl" />
       </div>
 
       <div className="container mx-auto px-4 py-20 relative z-10">
@@ -50,7 +50,7 @@ const Hero = () => {
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-rose-200 text-rose-900 mb-8 shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-rose-200 dark:border-rose-900/30 text-rose-900 dark:text-rose-300 mb-8 shadow-sm"
             >
               <Sparkles className="w-4 h-4 text-rose-500" />
               <span className="text-sm font-medium tracking-wide uppercase">{t('hero.premium_badge')}</span>
@@ -60,7 +60,7 @@ const Hero = () => {
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="text-5xl lg:text-7xl font-serif text-gray-900 mb-6 leading-[1.1]"
+              className="text-5xl lg:text-7xl font-serif text-gray-900 dark:text-white mb-6 leading-[1.1]"
             >
               {t('hero.title')}
             </motion.h1>
@@ -69,7 +69,7 @@ const Hero = () => {
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-lg"
+              className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed max-w-lg"
             >
               {t('hero.subtitle')}
             </motion.p>
@@ -80,7 +80,7 @@ const Hero = () => {
               animate="visible"
               className="flex flex-wrap gap-4"
             >
-              <Link to="/shop" className="group relative px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <Link to="/shop" className="group relative px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
                 <span className="relative z-10 flex items-center gap-2 font-medium">
                   {t('shop_now')}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -88,15 +88,15 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-rose-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
               
-              <Link to="/about" className="px-8 py-4 bg-white text-gray-900 border border-gray-200 rounded-full font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md">
+              <Link to="/about" className="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 shadow-sm hover:shadow-md">
                 {t('nav.about')}
               </Link>
             </motion.div>
             
-            <div className="mt-12 flex items-center gap-4 text-sm text-gray-500">
+            <div className="mt-12 flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex -space-x-3">
                     {[1,2,3,4].map((i) => (
-                        <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 overflow-hidden">
+                        <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 overflow-hidden">
                              <img src={`/images/${i}.png`} alt="User" className="w-full h-full object-cover" 
                                 onError={(e) => {e.target.src = `https://ui-avatars.com/api/?name=U+${i}&background=random`}}
                                 loading="lazy"
@@ -120,7 +120,7 @@ const Hero = () => {
                 animate="visible"
                 className="relative z-20"
             >
-                <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white">
+                <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800 transition-colors duration-300">
                     <img 
                         src={HERO_IMAGE} 
                         alt="Saria Beauty Collection" 

@@ -78,15 +78,15 @@ const Reviews = () => {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-rose-50/70 via-white to-rose-100/70 flex items-center justify-center px-4">
-        <div className="card-strong max-w-md w-full text-center p-10 bg-white/90">
-          <div className="bg-rose-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-md">
-            <MessageSquare className="w-12 h-12 text-primary" />
+      <main className="min-h-screen bg-gradient-to-b from-rose-50/70 via-white to-rose-100/70 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center px-4 transition-colors duration-300">
+        <div className="card-strong max-w-md w-full text-center p-10 bg-white/90 dark:bg-gray-800/90 dark:border-gray-700">
+          <div className="bg-rose-50 dark:bg-gray-700 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-md">
+            <MessageSquare className="w-12 h-12 text-primary dark:text-rose-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-serif text-gray-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
             {t('reviews.login_required_title')}
           </h1>
-          <p className="text-gray-600 max-w-md mx-auto mb-8 text-sm md:text-base">
+          <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-8 text-sm md:text-base">
             {t('reviews.login_required_desc')}
           </p>
           <Link
@@ -101,11 +101,11 @@ const Reviews = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-rose-50/70 via-white to-rose-100/70">
+    <main className="min-h-screen bg-gradient-to-b from-rose-50/70 via-white to-rose-100/70 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
       <div className="relative pt-32 pb-16 lg:pt-40 lg:pb-24">
         <div className="absolute inset-0 z-0 opacity-30">
           <div
-            className="absolute inset-0 bg-repeat bg-center"
+            className="absolute inset-0 bg-repeat bg-center dark:opacity-5"
             style={{ backgroundImage: 'url(/images/patterns/subtle-dots.svg)' }}
           />
         </div>
@@ -116,13 +116,13 @@ const Reviews = () => {
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <p className="text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-primary/80 mb-3">
+            <p className="text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-primary/80 dark:text-rose-400/80 mb-3">
               {t('reviews.page_title')}
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-gray-900 dark:text-white mb-4">
               {t('reviews.page_title')}
             </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg">
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-base md:text-lg">
               {t('reviews.page_subtitle')}
             </p>
           </motion.div>
@@ -143,10 +143,10 @@ const Reviews = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="card-strong bg-white/90 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-rose-100/80 hover:border-rose-200/90 h-full flex flex-col">
+                <div className="card-strong bg-white/90 dark:bg-gray-800/90 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-rose-100/80 dark:border-gray-700 hover:border-rose-200/90 dark:hover:border-gray-600 h-full flex flex-col">
                   <div className="p-6">
                     <div className="flex items-start gap-5">
-                      <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
+                      <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 flex-shrink-0">
                         <img
                           src={
                             (p.image?.startsWith('http') || p.image?.startsWith('/'))
@@ -159,10 +159,10 @@ const Reviews = () => {
                         />
                       </div>
                       <div className="flex-grow">
-                        <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">
                           {displayFields(p).name}
                         </h3>
-                        <p className="text-xs md:text-sm text-gray-500 mb-2">
+                        <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-2">
                           {displayCategory(p.category)}
                         </p>
                         <div className="mt-1 flex items-center gap-2 text-amber-500 text-xs md:text-sm">
@@ -172,8 +172,8 @@ const Reviews = () => {
                               {p.rating?.toFixed?.(1) || 0}
                             </span>
                           </div>
-                          <span className="text-gray-400">•</span>
-                          <span className="text-gray-600">
+                          <span className="text-gray-400 dark:text-gray-600">•</span>
+                          <span className="text-gray-600 dark:text-gray-400">
                             {t('product.reviews_label', { count: p.numReviews || 0 })}
                           </span>
                         </div>
@@ -181,9 +181,9 @@ const Reviews = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50/80 p-6 space-y-4 mt-auto">
+                  <div className="bg-gray-50/80 dark:bg-gray-700/50 p-6 space-y-4 mt-auto">
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                      <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
                         {t('reviews.rating_label')}
                       </label>
                       <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ const Reviews = () => {
                             className={`transition-colors hover:text-amber-400 ${
                               (form[p._id]?.rating || 0) >= star
                                 ? 'text-amber-400'
-                                : 'text-gray-300'
+                                : 'text-gray-300 dark:text-gray-500'
                             }`}
                           >
                             <Star className="w-6 h-6" />
@@ -208,7 +208,7 @@ const Reviews = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                      <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
                         {t('reviews.comment_label')}
                       </label>
                       <textarea
@@ -220,7 +220,7 @@ const Reviews = () => {
                             [p._id]: { ...(f[p._id] || {}), comment: e.target.value }
                           }))
                         }
-                        className="input w-full text-sm md:text-base"
+                        className="input w-full text-sm md:text-base dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         placeholder={t('reviews.comment_placeholder', {
                           name: displayFields(p).name
                         })}

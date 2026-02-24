@@ -359,7 +359,13 @@
       "make_admin": "Make Admin",
       "promoted": "User updated: Promoted to Admin",
       "demoted": "User updated: Demoted to User",
-      "toggle_error": "Toggle admin failed"
+      "toggle_error": "Toggle admin failed",
+      "delete_success": "User deleted",
+      "delete_error": "Failed to delete user",
+      "delete_confirm": {
+        "title": "Delete User?",
+        "text": "This action cannot be undone."
+      }
     },
     "messages": {
       "table": {
@@ -394,6 +400,12 @@
         "reviewer": "Reviewer",
         "rating": "Rating",
         "comment": "Comment"
+      },
+      "delete_success": "Review deleted",
+      "delete_error": "Failed to delete review",
+      "delete_confirm": {
+        "title": "Delete Review?",
+        "text": "This action cannot be undone."
       }
     },
     "about": {

@@ -17,6 +17,19 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
+  },
+  isReplied: {
+    type: Boolean,
+    default: false
+  },
+  unreadReply: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: String,
     enum: ['new', 'read', 'replied'],

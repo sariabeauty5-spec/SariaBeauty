@@ -82,9 +82,9 @@ const OrderSuccessScreen = () => {
 
   if (!id) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="text-center">
-          <h2 className="text-2xl font-serif mb-4">Commande introuvable</h2>
+          <h2 className="text-2xl font-serif mb-4 text-gray-900 dark:text-white">Commande introuvable</h2>
           <Link to="/" className="btn btn-primary">Retour à l'accueil</Link>
         </div>
       </div>
@@ -92,18 +92,18 @@ const OrderSuccessScreen = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-16 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-16 px-4 transition-colors duration-300">
       <div className="max-w-xl w-full space-y-8 animate-in fade-in zoom-in duration-700">
-        <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-[32px] shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700 transition-colors duration-300">
           {/* Header section with Success Icon */}
-          <div className="bg-primary/5 py-12 text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(183,110,121,0.1),transparent)]" />
+          <div className="bg-primary/5 dark:bg-primary/10 py-12 text-center relative overflow-hidden transition-colors duration-300">
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(183,110,121,0.1),transparent)] dark:bg-[radial-gradient(circle_at_top_right,rgba(183,110,121,0.2),transparent)]" />
             <div className="relative z-10">
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg mb-6 ring-8 ring-primary/5">
-                <CheckCircle className="w-12 h-12 text-green-500" />
+              <div className="w-24 h-24 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto shadow-lg mb-6 ring-8 ring-primary/5 dark:ring-primary/10 transition-colors duration-300">
+                <CheckCircle className="w-12 h-12 text-green-500 dark:text-green-400" />
               </div>
-              <h2 className="text-4xl font-serif text-gray-900 mb-2">Paiement Confirmé !</h2>
-              <p className="text-gray-500 font-medium uppercase tracking-widest text-sm">Merci pour votre confiance</p>
+              <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-2 transition-colors duration-300">Paiement Confirmé !</h2>
+              <p className="text-gray-500 dark:text-gray-400 font-medium uppercase tracking-widest text-sm transition-colors duration-300">Merci pour votre confiance</p>
             </div>
           </div>
 
@@ -112,21 +112,21 @@ const OrderSuccessScreen = () => {
             <div className="flex flex-col md:flex-row items-center gap-10">
               <div className="flex-1 space-y-4 text-center md:text-left">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-400 font-bold uppercase tracking-tighter">Numéro de commande</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-500 font-bold uppercase tracking-tighter transition-colors duration-300">Numéro de commande</p>
                   <p className="text-2xl font-mono font-bold text-primary">{id?.slice(-8).toUpperCase()}</p>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">
                   Votre commande a été validée. Scannez ou téléchargez ce QR code pour accéder rapidement à vos informations de livraison.
                 </p>
               </div>
 
               <div className="relative group">
-                <div className="absolute -inset-4 bg-primary/5 rounded-[24px] blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
-                <div className="relative bg-white p-4 rounded-[24px] shadow-sm border border-gray-100 flex items-center justify-center min-w-[160px] min-h-[160px]">
+                <div className="absolute -inset-4 bg-primary/5 dark:bg-primary/10 rounded-[24px] blur-xl opacity-50 group-hover:opacity-100 transition-all duration-300" />
+                <div className="relative bg-white dark:bg-gray-200 p-4 rounded-[24px] shadow-sm border border-gray-100 dark:border-gray-600 flex items-center justify-center min-w-[160px] min-h-[160px] transition-colors duration-300">
                   {qrCodeUrl ? (
                     <img src={qrCodeUrl} alt="Order QR Code" className="w-40 h-40" />
                   ) : (
-                    <div className="w-40 h-40 bg-gray-50 animate-pulse rounded-lg" />
+                    <div className="w-40 h-40 bg-gray-50 dark:bg-gray-300 animate-pulse rounded-lg transition-colors duration-300" />
                   )}
                 </div>
               </div>
@@ -136,7 +136,7 @@ const OrderSuccessScreen = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button 
                 onClick={downloadQR}
-                className="flex items-center justify-center gap-2 px-6 py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
+                className="flex items-center justify-center gap-2 px-6 py-4 bg-gray-900 dark:bg-gray-700 text-white rounded-2xl font-bold hover:bg-black dark:hover:bg-gray-600 transition-all active:scale-95 shadow-lg shadow-gray-200 dark:shadow-gray-900/50"
               >
                 <Download className="w-5 h-5" />
                 Télécharger le QR
@@ -151,8 +151,8 @@ const OrderSuccessScreen = () => {
               </Link>
             </div>
 
-            <div className="pt-8 border-t border-gray-100 text-center">
-              <Link to="/" className="text-gray-400 hover:text-primary font-bold text-sm uppercase tracking-widest transition-colors">
+            <div className="pt-8 border-t border-gray-100 dark:border-gray-700 text-center transition-colors duration-300">
+              <Link to="/" className="text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary font-bold text-sm uppercase tracking-widest transition-colors">
                 Retourner à la boutique
               </Link>
             </div>
