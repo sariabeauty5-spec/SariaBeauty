@@ -27,7 +27,9 @@
     "login_failed": "Échec de la connexion",
     "account_created": "Compte créé avec succès !",
     "registration_failed": "Échec de l'inscription",
-    "logged_out": "Déconnexion réussie"
+    "logged_out": "Déconnexion réussie",
+    "or_continue_with": "Ou continuer avec",
+    "google_login_failed": "Échec de la connexion Google"
   },
   "profile": {
     "title": "Profil Utilisateur",

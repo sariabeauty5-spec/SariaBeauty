@@ -27,7 +27,9 @@
     "login_failed": "فشل تسجيل الدخول",
     "account_created": "تم إنشاء الحساب بنجاح!",
     "registration_failed": "فشل التسجيل",
-    "logged_out": "تم تسجيل الخروج بنجاح"
+    "logged_out": "تم تسجيل الخروج بنجاح",
+    "or_continue_with": "أو المتابعة باستخدام",
+    "google_login_failed": "فشل تسجيل الدخول عبر Google"
   },
   "profile": {
     "title": "ملف المستخدم",

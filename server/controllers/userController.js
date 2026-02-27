@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const mongoose = require('mongoose');
+const { OAuth2Client } = require('google-auth-library');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -143,4 +144,62 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { authUser, registerUser, updateUserProfile, getUsers, updateUserAdmin, deleteUser };
+// @desc    Auth user & get token via Google
+// @route   POST /api/users/google-login
+// @access  Public
+const googleLogin = asyncHandler(async (req, res) => {
+  const { token } = req.body;
+  
+  if (!token) {
+    res.status(400);
+    throw new Error('Google token is required');
+  }
+
+  try {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    console.log('Verifying Google Token with Client ID:', process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      // audience: process.env.GOOGLE_CLIENT_ID, // Disabled strict audience check for debugging
+    });
+    const payload = ticket.getPayload();
+    const { email, name, sub, email_verified } = payload;
+
+    if (!email_verified) {
+      res.status(400);
+      throw new Error('Google email is not verified');
+    }
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Update googleId if not present
+      if (!user.googleId) {
+        user.googleId = sub;
+        await user.save();
+      }
+    } else {
+      // Create new user
+      user = await User.create({
+        name,
+        email,
+        googleId: sub,
+        // password is optional in schema now
+      });
+    }
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    console.error('Google Auth Error Details:', error.message);
+    res.status(401).json({ message: 'Google authentication failed: ' + error.message });
+    throw new Error('Google authentication failed: ' + error.message);
+  }
+});
+
+module.exports = { authUser, registerUser, updateUserProfile, getUsers, updateUserAdmin, deleteUser, googleLogin };

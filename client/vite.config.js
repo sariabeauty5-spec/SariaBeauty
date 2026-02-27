@@ -8,6 +8,9 @@ export default defineConfig({
     host: true, // allows network access
     port: 5173, // your dev port
     allowedHosts: ['tegan-syndromic-swashingly.ngrok-free.dev'], // whitelist your ngrok URL
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5001',

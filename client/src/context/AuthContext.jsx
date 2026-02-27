@@ -53,13 +53,30 @@ export const AuthProvider = ({ children }) => {
     toast.success(t('auth.logged_out'));
   };
 
+  const googleLogin = async (token) => {
+    try {
+      const { data } = await api.post('/users/google-login', { token });
+      setUser(data);
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      toast.success(t('auth.welcome_back', { name: data.name }));
+      return { success: true };
+    } catch (error) {
+      const message = error.response?.data?.message || t('auth.login_failed');
+      toast.error(message);
+      return { 
+        success: false, 
+        message 
+      };
+    }
+  };
+
   const updateUser = (userData) => {
     setUser(userData);
     localStorage.setItem('userInfo', JSON.stringify(userData));
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateUser, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateUser, googleLogin, loading }}>
       {children}
     </AuthContext.Provider>
   );

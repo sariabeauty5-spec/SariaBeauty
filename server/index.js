@@ -54,7 +54,12 @@ const webhookLimiter = rateLimit({
 });
 
 app.use(cors(corsOptions));
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {

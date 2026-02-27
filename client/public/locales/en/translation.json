@@ -36,7 +36,9 @@
     "login_failed": "Login failed",
     "account_created": "Account created successfully!",
     "registration_failed": "Registration failed",
-    "logged_out": "Logged out successfully"
+    "logged_out": "Logged out successfully",
+    "or_continue_with": "Or continue with",
+    "google_login_failed": "Google Login Failed"
   },
   "profile": {
     "title": "User Profile",

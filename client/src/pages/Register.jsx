@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { register, user } = useAuth();
+  const { register, googleLogin, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const searchParams = new URLSearchParams(location.search);
   const redirect = searchParams.get('redirect') || '/';
@@ -31,6 +32,17 @@ const Register = () => {
     } else {
       setError(result.message);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const result = await googleLogin(credentialResponse.credential);
+    if (result.success) {
+      navigate(redirect);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError(t('auth.google_login_failed'));
   };
 
   return (
@@ -97,6 +109,28 @@ const Register = () => {
             </button>
           </div>
           
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                {t('auth.or_continue_with')}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              theme="filled_blue"
+              text="signup_with"
+              shape="pill"
+              locale={i18n.language}
+            />
+          </div>
+
           <div className="text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {t('auth.already_have_an_account')}{' '}
